@@ -1,0 +1,22 @@
+Do not use this script with any vcf file that you don't want to be destroyed.
+If you want to use this with a current vcf file, make a copy of the file and 
+use the copy.
+
+When the vcf file is written, several of the fields are filled with 
+dummy info that may cause the file to be unuseable with other calendar programs.
+
+
+Installation:
+
+	Move the vcal.vim script to either the system wide vim plugin directory or 
+	to ~/.vim/plugin.  Move the vcal.txt file to either the system wide vim 
+	doc directory or to ~/.vim/doc.  Start vim and enter
+	:helptags ~/.vim/doc  or :helptags /your/system/wide/vim60/doc
+
+
+
+
+
+
+
+

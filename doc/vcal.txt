@@ -1,0 +1,42 @@
+*vcal.txt*  A calendar plugin for vim. 	
+
+Mappings:
+
+  n - show next month.
+  N - show previous month.
+  dd - remove appointment under the cursor.
+
+
+Commands:
+
+  :Vcal - start vcal from vim.
+
+  The following commands are only set in the vcal buffer.
+    :ApptVcal - set a new appointment.
+    :DateVcal month year - show calendar for date. :DateVcal 12 2004 
+    :TodayVcal - show calendar for todays date.
+    :AlarmVcal - set an alarm with a message.
+
+
+Settings:
+
+    The g:Vcalfile variable needs to be set to the file you want to use for 
+    storing the dates.
+
+    The g:Vcaluser variable needs to be set to the user name for the calendar.
+
+
+Setting appointments:
+
+  If no time is given when setting an appointment the current time is used.
+
+  Setting of dates like the American Thanksgiving holiday, the fourth Thursday
+	in November, is done with a monthly repeat instead of a yearly repeat.
+
+  Complex dates such as Easter must be done from within the script.  See 
+  the EasterSunday() and the BoxingDay() in the script for examples. 
+
+		 
+
+
+

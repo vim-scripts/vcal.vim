@@ -1,0 +1,3 @@
+This is a mirror of http://www.vim.org/scripts/script.php?script_id=196
+
+Vcal.vim is a calendar plugin that can read vcard files.  Appointments can be set and it can handle simple recurring dates.  This currently only works on Linux.
