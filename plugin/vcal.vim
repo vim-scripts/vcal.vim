@@ -1,12 +1,12 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""" 
 " File: vcal.vim
-" Author: Ken Steen (ksteen@users.sf.net)
+" Author: Ken Steen (ksteen@users.sourceforge.net)
 " Last Changed: January 13, 2002
 " Version: 0.1
 "-------------------------------------------------------------------------------
 " Vcal is a calendar script for vim.
 " Latest version is available at:
-" http://vide.sf.net/download.html
+" http://vifm.sf.net
 "-------------------------------------------------------------------------------
 " This file can either be put in a vim plugin directory or loaded into vim with
 " :source vcal.vim
@@ -71,15 +71,19 @@ endif
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Current month and year shown in calendar.
-let g:Vcalmonth_showing =strftime("%m") + 0
+let g:Vcalmonth_showing =strftime("%m")
 let g:Vcalyear_showing =strftime("%y") + 2000
 
+if strpart(g:Vcalmonth_showing, 0, 1) == 0
+	let g:Vcalmonth_showing = strpart(g:Vcalmonth_showing, 1, 1) + 0
+endif
+
 " Todays date.
-let g:Vcalthis_year = g:Vcalyear_showing
-let g:Vcalthis_month = g:Vcalmonth_showing + 0
+let g:Vcalthis_year = g:Vcalyear_showing 
+let g:Vcalthis_month = g:Vcalmonth_showing 
 
 "strftime("%d") will return 03 instead of 3 this removes the 0.
-let g:Vcalthis_day =strftime("%d") + 0
+let g:Vcalthis_day =strftime("%d") 
 if strpart(g:Vcalthis_day, 0, 1) == 0
 	let g:Vcalthis_day = strpart(g:Vcalthis_day, 1, 1) + 0
 endif
@@ -163,37 +167,40 @@ function! s:show_month(...)
 		if strlen(a:2) < 4 
 			let expanded_year = a:2 +2000
 		else
-			let expanded_year = a:2
+			let expanded_year = a:2 
 		endif
 
 		"Using n or N to move through the months needs this correction.
 		if a:1 == 13 
 			let correct_month = 1
+
 			let expanded_year = expanded_year +1
 		elseif a:1 == 0
 			let correct_month = 12
 			let expanded_year = expanded_year -1
 		else
-			let correct_month = a:1
+			let correct_month = a:1 
 		endif
+
+
 		let g:Vcalyear_showing = expanded_year
 	elseif a:0 == 1 " only the month is given
-		let g:Vcalyear_showing = g:Vcalthis_year
-		let expanded_year = g:Vcalthis_year
-		let correct_month = a:1
+		let g:Vcalyear_showing = g:Vcalthis_year 
+		let expanded_year = g:Vcalthis_year 
+		let correct_month = a:1 
 	endif
 
-	let g:Vcalmonth_showing = correct_month
+	let g:Vcalmonth_showing = correct_month 
 	
 	" The date calculations can handle years like 30000 but it is probably not
 	" what the user wants and the repeating date calculations will take forever.
 	if expanded_year > 2100 
 		let answer = input("Do you really want the year "  . expanded_year . "? \nThe repeating date functions will take a long time. y/n ")
 		if answer != "y"
-			let g:Vcalyear_showing = g:Vcalthis_year + 0
-			let g:Vcalmonth_showing = g:Vcalthis_month + 0
-			let correct_month = g:Vcalthis_month + 0
-			let expanded_year = g:Vcalthis_year + 0
+			let g:Vcalyear_showing = g:Vcalthis_year 
+			let g:Vcalmonth_showing = g:Vcalthis_month 
+			let correct_month = g:Vcalthis_month 
+			let expanded_year = g:Vcalthis_year 
 		endif
 	endif
 
@@ -1221,12 +1228,12 @@ function! s:set_appointment()
 		let day = "0" . day
 	endif
 	if g:Vcalmonth_showing < 10
-		let g:Vcalmonth_showing = "0". g:Vcalmonth_showing
+		let month_showing = "0". g:Vcalmonth_showing
 	endif
-	let appt = "BEGIN:VEVENT\nSEQUENCE:-1\nDTSTART:" . g:Vcalyear_showing . g:Vcalmonth_showing . day . "T" . hour . min . "00" ."\nDTEND:" . g:Vcalyear_showing . g:Vcalmonth_showing . day . "T" . time . "\nDCREATED:" . g:Vcalyear_showing . g:Vcalmonth_showing . day . "T" . time . "\nLAST-MODIFIED:" . g:Vcalyear_showing . g:Vcalmonth_showing . day . "T" . time . "\nSUMMARY:" . msg . "\nSTATUS:NEEDS ACTION\nCLASS:PUBLIC\nPRIORITY:0\nTRANSP:0\nORGNAME:" . s:Vcaluser . "\n" . repeat_string . "END:VEVENT\n\n"
+	let appt = "BEGIN:VEVENT\nSEQUENCE:-1\nDTSTART:" . g:Vcalyear_showing . month_showing . day . "T" . hour . min . "00" ."\nDTEND:" . g:Vcalyear_showing . month_showing . day . "T" . time . "\nDCREATED:" . g:Vcalyear_showing . month_showing . day . "T" . time . "\nLAST-MODIFIED:" . g:Vcalyear_showing . month_showing . day . "T" . time . "\nSUMMARY:" . msg . "\nSTATUS:NEEDS ACTION\nCLASS:PUBLIC\nPRIORITY:0\nTRANSP:0\nORGNAME:" . s:Vcaluser . "\n" . repeat_string . "END:VEVENT\n\n"
 
 
-	let g:Vcalmonth_showing = g:Vcalmonth_showing + 0
+	"let g:Vcalmonth_showing = g:Vcalmonth_showing + 0
 	let cmd = "echo " . "\"" . header . appt .  s:Vcaluser_vcf . "\"" . " > " . s:Vcalfile
 	call system(cmd)
 
@@ -1236,8 +1243,12 @@ function! s:set_appointment()
 
  unlet s:Vcaluser_vcf
 
- call s:show_month(g:Vcalmonth_showing, g:Vcalyear_showing)
+if strpart(g:Vcalmonth_showing, 0, 1) == 0
+	let g:Vcalmonth_showing = strpart(g:Vcalmonth_showing, 1, 1) + 0
+endif
 
+
+ call s:show_month(g:Vcalmonth_showing, g:Vcalyear_showing)
 
 endfunction
 
@@ -1376,7 +1387,7 @@ function! s:remove_appointment()
 		let remove = strpart(s:Vcaluser_vcf, appt_start, appt_end - appt_start)
 		let repeats = match(remove, "RRULE", 0)
 		if repeats >= 0
-			let answer = input("This appoint repeats.\na - Rmove all occurances?\nb - Remove only this occurance?\nc - Cancel?\n a\\b\\c? ")
+			let answer = input("This appoint repeats.\na - Remove all occurances?\nb - Remove only this occurance?\nc - Cancel?\n a\\b\\c? ")
 			if answer == 'a'
 			elseif answer == 'b'
 				if g:Vcalmonth_showing < 10
